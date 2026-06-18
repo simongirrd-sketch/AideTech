@@ -1,0 +1,99 @@
+{
+  "id": "api-plc",
+  "title": "Diagnostic API / Automate programmable",
+  "description": "PLC Siemens S7, Wago, Omron — état, I/O, communication",
+  "category": "automatisme",
+  "startNode": "q_led",
+  "nodes": {
+    "q_led": {
+      "type": "question",
+      "text": "Quel est l'état LED RUN/STOP de l'automate ?",
+      "options": [
+        { "label": "RUN (vert) — en marche", "next": "q_io" },
+        { "label": "STOP (orange/rouge)", "next": "q_stop_cause" },
+        { "label": "Clignotement / défaut (SF rouge)", "next": "r_defaut_sf" }
+      ]
+    },
+    "q_stop_cause": {
+      "type": "question",
+      "text": "L'automate est-il passé en STOP volontairement ou après défaut ?",
+      "options": [
+        { "label": "Arrêt volontaire (interrupteur, logiciel)", "next": "r_stop_volontaire" },
+        { "label": "Arrêt après défaut ou coupure", "next": "r_stop_defaut" }
+      ]
+    },
+    "q_io": {
+      "type": "question",
+      "text": "Les entrées/sorties réagissent-elles correctement au test ?",
+      "options": [
+        { "label": "Entrées OK mais sorties inactives", "next": "r_sorties" },
+        { "label": "Entrées ne réagissent pas", "next": "r_entrees" },
+        { "label": "I/O OK mais process anormal", "next": "q_comm" }
+      ]
+    },
+    "q_comm": {
+      "type": "question",
+      "text": "La communication HMI/SCADA/superviseur fonctionne-t-elle ?",
+      "options": [
+        { "label": "Non, perte communication", "next": "r_comm" },
+        { "label": "Oui, communication OK", "next": "r_programme" }
+      ]
+    },
+    "r_defaut_sf": {
+      "type": "result",
+      "text": "Défaut système automate (SF)",
+      "severity": "danger",
+      "causes": ["Erreur mémoire programme", "Module ES/ET défectueux", "Court-circuit sur rail", "Mise à jour firmware interrompue", "Batterie CPU faible (S7)"],
+      "verifications": ["Lire diagnostic buffer CPU (TIA Portal, Wago, CX)", "Identifier module en défaut (LED rouge)", "Contrôler batterie SRAM Siemens", "Vérifier alimentation 24V rails"],
+      "actions": ["Recharger programme depuis backup", "Remplacer module ES/ET défectueux", "Remplacer batterie CPU", "Mettre à jour firmware si bug connu"]
+    },
+    "r_stop_volontaire": {
+      "type": "result",
+      "text": "Automate en STOP volontaire",
+      "severity": "info",
+      "causes": ["Sélecteur en position STOP", "Arrêt depuis PG/PC", "Mode maintenance actif", "Pas de passage RUN autorisé (clé)"],
+      "verifications": ["Vérifier sélecteur RUN/STOP/MRES", "Contrôler mode depuis TIA Portal", "Vérifier droits opérateur", "Contrôler conditions de démarrage programme"],
+      "actions": ["Passer sélecteur en RUN", "Lancer CPU depuis logiciel", "Quitter mode maintenance", "Corriger conditions démarrage (capteurs sécurité)"]
+    },
+    "r_stop_defaut": {
+      "type": "result",
+      "text": "Arrêt sur défaut programme ou hardware",
+      "severity": "warning",
+      "causes": ["OB d'erreur déclenché", "Watchdog dépassé", "Coupure alimentation 24V", "Erreur organisation blocs (SFC/SFB)"],
+      "verifications": ["Consulter OB82/OB86/OB121 (Siemens)", "Lire last error dans diagnostic", "Contrôler alimentation 24V CPU", "Analyser stack trace si disponible"],
+      "actions": ["Corriger erreur programme identifiée", "Recharger backup validé", "Réparer alimentation 24V", "Contacter support si erreur hardware"]
+    },
+    "r_entrees": {
+      "type": "result",
+      "text": "Entrées automate inactives",
+      "severity": "warning",
+      "causes": ["Capteur ou câblage amont HS", "Adressage entrée incorrect", "Module ES défectueux", "Type signal incompatible (PNP/NPN)"],
+      "verifications": ["Forcer entrée et observer %I", "Mesurer signal au bornier ES", "Vérifier adressage dans programme", "Contrôler paramétrage type entrée (24V DC)"],
+      "actions": ["Réparer capteur/câble (cf. diagnostic capteur)", "Corriger adressage PLC", "Remplacer module ES", "Adapter câblage PNP/NPN"]
+    },
+    "r_sorties": {
+      "type": "result",
+      "text": "Sorties automate inactives",
+      "severity": "warning",
+      "causes": ["Condition logique non remplie (interlock)", "Sortie en défaut surcharge", "Module ET HS", "Relais intermédiaire défectueux"],
+      "verifications": ["Observer %Q en online mode", "Vérifier conditions sécurité programme", "Mesurer sortie au bornier ET", "Contrôler relais/commande contacteur"],
+      "actions": ["Corriger logique interlock", "Réduire charge ou remplacer module ET", "Remplacer relais intermédiaire", "Forcer sortie en test (maintenance only)"]
+    },
+    "r_comm": {
+      "type": "result",
+      "text": "Défaut communication automate",
+      "severity": "warning",
+      "causes": ["Câble Ethernet/Profibus coupé", "Adresse IP incorrecte", "Switch réseau industriel HS", "Pare-feu ou VLAN mal configuré"],
+      "verifications": ["Ping IP automate", "Contrôler LED port Ethernet", "Vérifier paramètres Profinet/Modbus", "Tester câble réseau"],
+      "actions": ["Reconfigurer adresse IP", "Remplacer câble réseau", "Redémarrer switch", "Restaurer configuration réseau backup"]
+    },
+    "r_programme": {
+      "type": "result",
+      "text": "Automate OK — anomalie logique programme ou mécanique",
+      "severity": "info",
+      "causes": ["Bug logique récent (modification programme)", "Capteur mécanique déréglé", "Paramètres recette incorrects", "Séquence bloquée en attente"],
+      "verifications": ["Observer séquence en mode online", "Vérifier étapes Grafcet/SFC actives", "Contrôler recette chargée", "Comparer avec backup stable"],
+      "actions": ["Corriger logique programme", "Restaurer backup programme validé", "Réinitialiser recette", "Documenter modification avant redéploiement"]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation — SiteMAINT</title>
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="../index.html">Accueil</a><span aria-hidden="true">›</span><span>Documentation</span>
+        </nav>
+        <h1>Bibliothèque Technique</h1>
+        <p>15 fiches machines réparties sur 5 domaines techniques.</p>
+      </div>
+    </div>
+    <div class="container category-layout">
+      <aside class="sidebar" id="doc-sidebar"></aside>
+      <div>
+        <div class="card-grid">
+          <a href="../documentation/electricite/index.html" class="card" style="text-decoration:none;"><div class="card-icon">⚡</div><h3>Électricité</h3><p>ABB, Schneider, Siemens</p><span class="card-link">Accéder →</span></a>
+          <a href="../documentation/automatisme/index.html" class="card" style="text-decoration:none;"><div class="card-icon">🤖</div><h3>Automatisme</h3><p>Siemens, Wago, Lenze, Omron, ABB</p><span class="card-link">Accéder →</span></a>
+          <a href="../documentation/mecanique/index.html" class="card" style="text-decoration:none;"><div class="card-icon">⚙️</div><h3>Mécanique</h3><p>SEW-Eurodrive</p><span class="card-link">Accéder →</span></a>
+          <a href="../documentation/hydraulique/index.html" class="card" style="text-decoration:none;"><div class="card-icon">💧</div><h3>Hydraulique</h3><p>Bosch Rexroth</p><span class="card-link">Accéder →</span></a>
+          <a href="../documentation/pneumatique/index.html" class="card" style="text-decoration:none;"><div class="card-icon">💨</div><h3>Pneumatique</h3><p>Festo, SMC</p><span class="card-link">Accéder →</span></a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/navigation.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", () => renderDocSidebar(null));</script>
+</body>
+</html>

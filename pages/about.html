@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos — SiteMAINT</title>
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="../index.html">Accueil</a><span aria-hidden="true">›</span><span>À propos</span>
+        </nav>
+        <h1>À propos de SiteMAINT</h1>
+        <p>Plateforme V1 complète pour techniciens de maintenance industrielle.</p>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="card" style="max-width:800px;margin-bottom:1.5rem;">
+        <h2 class="section-title" style="font-size:var(--font-size-xl);">Fonctionnalités livrées</h2>
+        <ul style="list-style:disc;padding-left:1.5rem;line-height:2;color:var(--color-text-muted);">
+          <li><strong>Documentation</strong> — 5 catégories, 15 fiches avec pannes, procédures, bonnes pratiques</li>
+          <li><strong>Diagnostic</strong> — 6 arbres JSON, moteur générique, PDF, historique local</li>
+          <li><strong>Maintenance</strong> — CRUD équipements, check-lists, calendrier, KPI</li>
+          <li><strong>GMAO</strong> — Couche DataService, AuthService stub, schéma PostgreSQL</li>
+        </ul>
+      </div>
+      <div class="card" style="max-width:800px;">
+        <h2 class="section-title" style="font-size:var(--font-size-xl);">Architecture</h2>
+        <p style="color:var(--color-text-muted);margin-bottom:1rem;">HTML / CSS / JavaScript Vanilla — sans framework. Voir <a href="gmao.html">Préparation GMAO</a> pour la migration Supabase.</p>
+        <p style="color:var(--color-text-muted);">Roadmap détaillée : <code>ROADMAP.md</code> à la racine du projet.</p>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/navigation.js"></script>
+</body>
+</html>

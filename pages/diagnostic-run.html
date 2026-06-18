@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session diagnostic — SiteMAINT</title>
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/diagnostic.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="../index.html">Accueil</a><span aria-hidden="true">›</span>
+          <a href="diagnostic.html">Diagnostic</a><span aria-hidden="true">›</span>
+          <span id="diag-title">Session</span>
+        </nav>
+        <p id="diag-progress" class="text-muted" style="opacity:0.9;margin-top:0.5rem;"></p>
+      </div>
+    </div>
+    <div class="container diag-layout">
+      <div id="diag-content" aria-live="polite"></div>
+      <aside class="diag-sidebar">
+        <h2>Historique des réponses</h2>
+        <div id="diag-history"></div>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="../assets/js/core/utils.js"></script>
+  <script src="../assets/js/core/data-provider.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/navigation.js"></script>
+  <script src="../assets/js/services/diagnostic-service.js"></script>
+  <script src="../assets/js/modules/diagnostic-ui.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      DiagnosticUI.initRun({ basePath: "../data/diagnostics/" });
+    });
+  </script>
+</body>
+</html>

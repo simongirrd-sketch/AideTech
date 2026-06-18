@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Préparation GMAO SiteMAINT — Architecture Supabase et PostgreSQL.">
+  <title>GMAO — SiteMAINT</title>
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/maintenance.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="../index.html">Accueil</a><span aria-hidden="true">›</span><span>GMAO</span>
+        </nav>
+        <h1>Préparation GMAO</h1>
+        <p>Architecture modulaire prête pour migration Supabase + PostgreSQL.</p>
+      </div>
+    </div>
+    <div class="container section">
+      <div class="card" style="margin-bottom:1.5rem;">
+        <h2 class="section-title" style="font-size:var(--font-size-xl);">Architecture en couches</h2>
+        <p class="text-muted" style="margin-bottom:1.5rem;">Séparation UI / logique métier / stockage — prête pour Supabase Auth et PostgreSQL.</p>
+        <div class="gmao-arch">
+          <div class="arch-layer"><h3>UI</h3><p>HTML + modules JS<br><small>diagnostic-ui, maintenance-app, doc-category</small></p></div>
+          <div class="arch-layer"><h3>Services</h3><p>MachineService, DiagnosticService, MaintenanceService, AuthService</p></div>
+          <div class="arch-layer"><h3>DataService</h3><p>LocalStorageProvider (V1)<br>SupabaseProvider (stub Phase 4)</p></div>
+        </div>
+      </div>
+
+      <div class="maint-grid-2">
+        <section class="card">
+          <h3>Fonctionnalités prévues (Supabase)</h3>
+          <ul style="list-style:disc;padding-left:1.5rem;line-height:2;font-size:0.9rem;color:var(--color-text-muted);">
+            <li>Authentification (Supabase Auth)</li>
+            <li>Utilisateurs et rôles (admin, technicien, superviseur)</li>
+            <li>PostgreSQL — équipements, interventions, historique</li>
+            <li>Sync multi-postes (remplace localStorage)</li>
+            <li>Tableaux de bord temps réel</li>
+          </ul>
+        </section>
+        <section class="card">
+          <h3>Connexion démo (V1 locale)</h3>
+          <form id="login-form" class="form-grid" style="grid-template-columns:1fr;">
+            <label>Email<input type="email" name="email" value="admin@sitemaint.local"></label>
+            <label>Mot de passe<input type="password" name="password" value="demo"></label>
+            <button type="submit" class="btn btn-primary">Connexion démo</button>
+          </form>
+          <p id="login-status" class="text-muted" style="margin-top:1rem;"></p>
+          <button type="button" class="btn btn-secondary" id="btn-logout" style="margin-top:0.5rem;display:none;">Déconnexion</button>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top:1.5rem;">
+        <h3>Schéma PostgreSQL prévu</h3>
+        <pre style="background:var(--color-bg);padding:1rem;border-radius:8px;overflow-x:auto;font-size:0.8rem;line-height:1.6;"><code>-- users (Supabase Auth + profil)
+profiles (id, email, name, role, created_at)
+
+-- équipements
+equipments (id, nom, marque, modele, emplacement, categorie,
+            frequence_jours, prochain_entretien, notes, org_id)
+
+-- interventions
+interventions (id, equipment_id, date, type, description,
+               technicien_id, duree_minutes, created_at)
+
+-- diagnostics
+diagnostic_sessions (id, diagnostic_id, user_id, history_json,
+                     result_json, completed_at)
+
+-- documents
+machines (id, categorie, data_json) -- ou tables normalisées</code></pre>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="../assets/js/core/utils.js"></script>
+  <script src="../assets/js/core/data-provider.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/navigation.js"></script>
+  <script src="../assets/js/services/auth-service.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await AuthService.init();
+      const status = document.getElementById("login-status");
+      const logoutBtn = document.getElementById("btn-logout");
+
+      function updateUI() {
+        const user = AuthService.getCurrentUser();
+        if (user) {
+          status.textContent = `Connecté : ${user.name} (${user.role})`;
+          logoutBtn.style.display = "inline-flex";
+        } else {
+          status.textContent = "Non connecté — mode localStorage actif";
+          logoutBtn.style.display = "none";
+        }
+      }
+      updateUI();
+
+      document.getElementById("login-form")?.addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        const fd = new FormData(ev.target);
+        try {
+          await AuthService.login(fd.get("email"), fd.get("password"));
+          updateUI();
+        } catch (e) {
+          status.textContent = e.message;
+        }
+      });
+      logoutBtn?.addEventListener("click", async () => {
+        await AuthService.logout();
+        updateUI();
+      });
+    });
+  </script>
+</body>
+</html>

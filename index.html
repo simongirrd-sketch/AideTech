@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SiteMAINT — Bibliothèque technique, diagnostic et maintenance préventive industrielle.">
+  <title>SiteMAINT — Maintenance Industrielle</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+  <main id="main-content">
+    <section class="hero">
+      <div class="container hero-content">
+        <span class="hero-badge">V1 Complète — Exploitable</span>
+        <h1>Votre plateforme de maintenance industrielle</h1>
+        <p>Documentation technique, diagnostics interactifs, maintenance préventive et architecture GMAO prête pour Supabase.</p>
+        <div class="hero-actions">
+          <a href="pages/documentation.html" class="btn btn-primary">Documentation</a>
+          <a href="pages/diagnostic.html" class="btn btn-secondary">Diagnostic</a>
+          <a href="pages/maintenance.html" class="btn btn-secondary">Maintenance</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Modules disponibles</h2>
+        <div class="card-grid">
+          <a href="pages/documentation.html" class="card" style="text-decoration:none;">
+            <div class="card-icon" aria-hidden="true">📚</div>
+            <h3>Bibliothèque Technique</h3>
+            <p>5 domaines, 15 fiches machines (ABB, Schneider, Siemens, Festo…).</p>
+            <span class="badge badge-phase">Actif</span>
+            <br><br><span class="card-link">Explorer →</span>
+          </a>
+          <a href="pages/diagnostic.html" class="card" style="text-decoration:none;">
+            <div class="card-icon" aria-hidden="true">🔧</div>
+            <h3>Diagnostic interactif</h3>
+            <p>6 arbres de décision, historique, export PDF.</p>
+            <span class="badge badge-phase">Actif</span>
+            <br><br><span class="card-link">Lancer →</span>
+          </a>
+          <a href="pages/maintenance.html" class="card" style="text-decoration:none;">
+            <div class="card-icon" aria-hidden="true">📋</div>
+            <h3>Maintenance Préventive</h3>
+            <p>Équipements, check-lists, calendrier, KPI tableau de bord.</p>
+            <span class="badge badge-phase">Actif</span>
+            <br><br><span class="card-link">Gérer →</span>
+          </a>
+          <a href="pages/gmao.html" class="card" style="text-decoration:none;">
+            <div class="card-icon" aria-hidden="true">🏭</div>
+            <h3>Préparation GMAO</h3>
+            <p>Architecture Supabase, auth, PostgreSQL — prêt à connecter.</p>
+            <span class="badge badge-phase">Architecture</span>
+            <br><br><span class="card-link">Voir →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--color-bg-card);border-top:1px solid var(--color-border-light);">
+      <div class="container">
+        <h2 class="section-title">Domaines techniques</h2>
+        <div class="card-grid">
+          <a href="documentation/electricite/index.html" class="card" style="text-decoration:none;"><div class="card-icon">⚡</div><h3>Électricité</h3><span class="card-link">Consulter →</span></a>
+          <a href="documentation/automatisme/index.html" class="card" style="text-decoration:none;"><div class="card-icon">🤖</div><h3>Automatisme</h3><span class="card-link">Consulter →</span></a>
+          <a href="documentation/mecanique/index.html" class="card" style="text-decoration:none;"><div class="card-icon">⚙️</div><h3>Mécanique</h3><span class="card-link">Consulter →</span></a>
+          <a href="documentation/hydraulique/index.html" class="card" style="text-decoration:none;"><div class="card-icon">💧</div><h3>Hydraulique</h3><span class="card-link">Consulter →</span></a>
+          <a href="documentation/pneumatique/index.html" class="card" style="text-decoration:none;"><div class="card-icon">💨</div><h3>Pneumatique</h3><span class="card-link">Consulter →</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/navigation.js"></script>
+</body>
+</html>

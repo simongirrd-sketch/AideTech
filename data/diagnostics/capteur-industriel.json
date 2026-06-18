@@ -1,0 +1,92 @@
+{
+  "id": "capteur-industriel",
+  "title": "Diagnostic capteur industriel",
+  "description": "Capteurs proximité, photoélectriques, encoders",
+  "category": "automatisme",
+  "startNode": "q_type",
+  "nodes": {
+    "q_type": {
+      "type": "question",
+      "text": "Quel type de capteur est concerné ?",
+      "options": [
+        { "label": "Capteur proximité inductif/capacitif (PNP/NPN)", "next": "q_alim_cap" },
+        { "label": "Capteur photoélectrique", "next": "q_alim_cap" },
+        { "label": "Encodeur (incrémental/absolu)", "next": "q_signal_enc" }
+      ]
+    },
+    "q_alim_cap": {
+      "type": "question",
+      "text": "Le capteur est-il alimenté (LED capteur allumée si présente) ?",
+      "options": [
+        { "label": "Oui", "next": "q_sortie" },
+        { "label": "Non", "next": "r_alim" }
+      ]
+    },
+    "q_sortie": {
+      "type": "question",
+      "text": "La sortie du capteur change-t-elle d'état quand la cible est détectée ?",
+      "options": [
+        { "label": "Non, sortie toujours inactive", "next": "r_detection" },
+        { "label": "Oui mais signal instable (clignotement)", "next": "r_instabilite" },
+        { "label": "Oui, fonctionnement correct au test", "next": "r_cablage_auto" }
+      ]
+    },
+    "q_signal_enc": {
+      "type": "question",
+      "text": "L'encodeur envoie-t-il des impulsions mesurables (oscilloscope/compteur) ?",
+      "options": [
+        { "label": "Non, aucun signal", "next": "r_enc_hs" },
+        { "label": "Signal présent mais valeur erronée", "next": "r_enc_param" },
+        { "label": "Signal correct au banc de test", "next": "r_cablage_auto" }
+      ]
+    },
+    "r_alim": {
+      "type": "result",
+      "text": "Absence d'alimentation capteur",
+      "severity": "warning",
+      "causes": ["Fusible 24V DC ouvert", "Module ES automate en défaut", "Câble alimentation coupé", "Court-circuit sur rail 24V"],
+      "verifications": ["Mesurer 24V aux bornes capteur (+/-)", "Contrôler LED module ES", "Vérifier fusible alimentation automate", "Contrôler consommation rail 24V"],
+      "actions": ["Remplacer fusible après recherche CC", "Redémarrer automate", "Réparer câble", "Remplacer capteur si court-circuit interne"]
+    },
+    "r_detection": {
+      "type": "result",
+      "text": "Capteur alimenté mais ne détecte pas",
+      "severity": "warning",
+      "causes": ["Distance détection dépassée", "Cible non compatible (inductif)", "Capteur HS", "Face détectrice encrassée", "Mauvais paramétrage NO/NF"],
+      "verifications": ["Vérifier distance nominale vs réelle", "Contrôler matériau cible (inductif = métal ferreux)", "Nettoyer face optique/lentille", "Tester capteur de remplacement"],
+      "actions": ["Rapprocher cible ou capteur plus grand", "Changer type capteur si matériau inadapté", "Remplacer capteur", "Reparamétrer polarité NO/NF"]
+    },
+    "r_instabilite": {
+      "type": "result",
+      "text": "Signal instable",
+      "severity": "info",
+      "causes": ["Vibrations mécaniques", "Reflets parasites (photo)", "Alimentation bruitée", "Câble non blindé en environnement perturbé"],
+      "verifications": ["Fixer capteur solidement", "Ajuster angle capteur photo", "Mesurer 24V sous charge", "Vérifier mise à la terre blindage"],
+      "actions": ["Ajouter fixation anti-vibration", "Modifier orientation ou filtre optique", "Séparer câbles puissance/signaux", "Utiliser câble blindé avec masse"]
+    },
+    "r_enc_hs": {
+      "type": "result",
+      "text": "Encodeur sans signal",
+      "severity": "warning",
+      "causes": ["Alimentation encodeur absente", "Câble résolveur/HTL coupé", "Encodeur mécaniquement déconnecté", "Carte entrée automate HS"],
+      "verifications": ["Mesurer alimentation encodeur", "Contrôler continuité câbles A/B/Z ou SIN/COS", "Vérifier accouplement mécanique", "Tester entrée compteur automate"],
+      "actions": ["Réparer alimentation", "Remplacer câble encodeur", "Repositionner accouplement", "Remplacer encodeur ou module ES"]
+    },
+    "r_enc_param": {
+      "type": "result",
+      "text": "Encodeur — valeur incorrecte",
+      "severity": "info",
+      "causes": ["Résolution mal paramétrée", "Dérive mécanique (jeu)", "Interférences électriques", "Compteur mal configuré"],
+      "verifications": ["Vérifier PPR (impulsions/tour) en paramètres", "Contrôler accouplement sans jeu", "Observer signaux A/B au scope", "Comparer position réelle vs logiciel"],
+      "actions": ["Recalibrer résolution automate", "Resserrer accouplement", "Blindage câble encodeur", "Effectuer homing / prise origine"]
+    },
+    "r_cablage_auto": {
+      "type": "result",
+      "text": "Capteur OK — problème en aval (câblage ou automate)",
+      "severity": "info",
+      "causes": ["Entrée automate défectueuse", "Mauvais adressage entrée", "Câble signal coupé", "Programme automate ne lit pas l'entrée"],
+      "verifications": ["Forcer entrée automate et observer programme", "Mesurer continuité câble capteur → bornier ES", "Vérifier adresse %I ou mapping PLC", "Contrôler masse commune"],
+      "actions": ["Changer module entrée si HS", "Corriger adressage programme", "Réparer câble signal", "Mettre à jour logiciel automate"]
+    }
+  }
+}

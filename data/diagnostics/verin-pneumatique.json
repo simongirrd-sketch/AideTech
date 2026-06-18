@@ -1,0 +1,90 @@
+{
+  "id": "verin-pneumatique",
+  "title": "Diagnostic vérin pneumatique",
+  "description": "Vérins Festo, SMC — course, fuite, blocage",
+  "category": "pneumatique",
+  "startNode": "q_pression",
+  "nodes": {
+    "q_pression": {
+      "type": "question",
+      "text": "La pression réseau est-elle présente et conforme (6 bar typique) ?",
+      "options": [
+        { "label": "Oui, pression OK", "next": "q_course" },
+        { "label": "Non ou insuffisante", "next": "r_pression" }
+      ]
+    },
+    "q_course": {
+      "type": "question",
+      "text": "Le vérin effectue-t-il sa course complète ?",
+      "options": [
+        { "label": "Non, course incomplète ou bloquée", "next": "q_electrovanne" },
+        { "label": "Oui mais très lent", "next": "r_lenteur" },
+        { "label": "Oui, course normale", "next": "q_fuite" }
+      ]
+    },
+    "q_electrovanne": {
+      "type": "question",
+      "text": "L'électrovanne s'actionne-t-elle (clic, voyant bobine) ?",
+      "options": [
+        { "label": "Oui", "next": "r_mecanique" },
+        { "label": "Non", "next": "r_electrovanne" }
+      ]
+    },
+    "q_fuite": {
+      "type": "question",
+      "text": "Observe-t-on une fuite d'air audible ou visible ?",
+      "options": [
+        { "label": "Oui, fuite importante", "next": "r_fuite" },
+        { "label": "Non, pas de fuite apparente", "next": "r_ok" }
+      ]
+    },
+    "r_pression": {
+      "type": "result",
+      "text": "Pression réseau insuffisante",
+      "severity": "warning",
+      "causes": ["Compresseur arrêté ou en défaut", "Fuite réseau général", "Détendeur mal réglé", "Consommation excessive simultanée"],
+      "verifications": ["Lire manomètre réseau au poste", "Contrôler état compresseur et sécheur", "Vérifier réglage détendeur/FRL", "Rechercher fuites réseau (eau savonneuse)"],
+      "actions": ["Remettre compresseur en service", "Réparer fuites réseau", "Ajuster pression détendeur à 6 bar", "Dimensionner réseau si sous-dimensionné"]
+    },
+    "r_electrovanne": {
+      "type": "result",
+      "text": "Électrovanne non commandée",
+      "severity": "warning",
+      "causes": ["Bobine électrovanne HS", "Sortie automate inactive", "Connecteur débroché", "Pressostat sécurité ouvert"],
+      "verifications": ["Mesurer 24V aux bornes bobine", "Forcer sortie automate", "Contrôler connecteur D-Sub/quick", "Vérifier pressostat minimum réseau"],
+      "actions": ["Remplacer bobine ou électrovanne", "Corriger programme automate", "Rebrancher connecteur", "Attendre pression minimale réseau"]
+    },
+    "r_mecanique": {
+      "type": "result",
+      "text": "Blocage mécanique ou défaut distribution",
+      "severity": "warning",
+      "causes": ["Charge mécanique excessive", "Guidage vérin grippé", "Tige voilée", "Distributeur bloqué", "Silencieux bouché"],
+      "verifications": ["Déconnecter charge et tester vérin à vide", "Inspecter tige et joints tige", "Contrôler lubrification guidages", "Purger et tester distributeur"],
+      "actions": ["Corriger charge mécanique", "Remplacer kit joint vérin", "Redresser ou remplacer tige", "Nettoyer/remplacer distributeur"]
+    },
+    "r_lenteur": {
+      "type": "result",
+      "text": "Course anormalement lente",
+      "severity": "info",
+      "causes": ["Débit insuffisant (distributeur sous-dimensionné)", "Régulateur de débit trop fermé", "Filtre encrassé FRL", "Diamètre tuyauterie insuffisant"],
+      "verifications": ["Vérifier ouverture régulateurs débit", "Contrôler ΔP manomètre amont/aval", "Inspecter filtre FRL", "Mesurer temps course vs nominal"],
+      "actions": ["Ouvrir régulateur débit", "Nettoyer/remplacer filtre", "Augmenter section tuyauterie", "Changer distributeur à débit supérieur"]
+    },
+    "r_fuite": {
+      "type": "result",
+      "text": "Fuite d'air sur vérin ou raccords",
+      "severity": "info",
+      "causes": ["Joint tige usé", "Raccord quick mal enfoncé", "Joint torique distributeur usé", "Corps vérin fissuré (rare)"],
+      "verifications": ["Localiser fuite (tige, raccords, fond de culasse)", "Contrôler serrage raccords", "Test à la eau savonneuse"],
+      "actions": ["Remplacer kit joint vérin Festo/SMC", "Repositionner raccord instantané", "Remplacer joints distributeur", "Remplacer vérin si corps endommagé"]
+    },
+    "r_ok": {
+      "type": "result",
+      "text": "Vérin opérationnel",
+      "severity": "success",
+      "causes": [],
+      "verifications": ["Mesurer temps de cycle de référence", "Contrôler FRL (condensats, filtre)"],
+      "actions": ["Graisser tige si recommandé constructeur", "Planifier remplacement joints préventif"]
+    }
+  }
+}

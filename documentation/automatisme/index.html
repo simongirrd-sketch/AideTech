@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Documentation automatisme — Siemens, Wago, Lenze, Omron, ABB, Schneider.">
+  <title>Automatisme — SiteMAINT</title>
+  <link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="../../index.html">Accueil</a><span aria-hidden="true">›</span>
+          <a href="../../pages/documentation.html">Documentation</a><span aria-hidden="true">›</span>
+          <span>Automatisme</span>
+        </nav>
+        <h1>Automatisme</h1>
+        <p>API, variateurs, IHM et réseaux industriels.</p>
+      </div>
+    </div>
+    <div class="container category-layout">
+      <aside class="sidebar" id="doc-sidebar"></aside>
+      <div>
+        <div class="subcategory-list">
+          <div class="subcategory-item"><span class="icon">🤖</span><div><strong>API / PLC</strong></div></div>
+          <div class="subcategory-item"><span class="icon">📊</span><div><strong>Variateurs</strong></div></div>
+          <div class="subcategory-item"><span class="icon">🖥️</span><div><strong>IHM</strong></div></div>
+          <div class="subcategory-item"><span class="icon">🌐</span><div><strong>Réseaux industriels</strong></div></div>
+        </div>
+        <h2 class="section-title">Fiches machines</h2>
+        <div class="search-bar"><label for="machine-search" class="sr-only">Rechercher</label>
+          <input type="search" id="machine-search" placeholder="Rechercher…"></div>
+        <p id="search-results-info" class="search-results-info" aria-live="polite"></p>
+        <div id="machine-list" class="machine-list"></div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="../../assets/js/core/utils.js"></script>
+  <script src="../../assets/js/core/data-provider.js"></script>
+  <script src="../../assets/js/config.js"></script>
+  <script src="../../assets/js/navigation.js"></script>
+  <script src="../../assets/js/search.js"></script>
+  <script src="../../assets/js/services/machine-service.js"></script>
+  <script src="../../assets/js/modules/doc-category.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => initDocCategoryPage({
+      categoryId: "automatisme", jsonPath: "../../data/machines.json",
+    }));
+  </script>
+</body>
+</html>

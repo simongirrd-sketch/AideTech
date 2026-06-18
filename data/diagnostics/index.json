@@ -1,0 +1,46 @@
+{
+  "diagnostics": [
+    {
+      "id": "moteur-electrique",
+      "title": "Moteur électrique",
+      "description": "Diagnostic panne moteur asynchrone triphasé — démarrage, surchauffe, vibrations.",
+      "category": "electricite",
+      "icon": "⚡"
+    },
+    {
+      "id": "variateur-vitesse",
+      "title": "Variateur de vitesse",
+      "description": "Diagnostic variateur (Lenze, Schneider, Siemens) — défauts, communication, surcharge.",
+      "category": "automatisme",
+      "icon": "📊"
+    },
+    {
+      "id": "capteur-industriel",
+      "title": "Capteur industriel",
+      "description": "Diagnostic capteurs proximité, photoelectriques, encoders — signal absent ou instable.",
+      "category": "automatisme",
+      "icon": "📡"
+    },
+    {
+      "id": "verin-pneumatique",
+      "title": "Vérin pneumatique",
+      "description": "Diagnostic vérin Festo/SMC — fuite, blocage, course incomplète.",
+      "category": "pneumatique",
+      "icon": "💨"
+    },
+    {
+      "id": "pompe-hydraulique",
+      "title": "Pompe hydraulique",
+      "description": "Diagnostic pompe Bosch Rexroth — bruit, pression insuffisante, surchauffe.",
+      "category": "hydraulique",
+      "icon": "💧"
+    },
+    {
+      "id": "api-plc",
+      "title": "API / Automate programmable",
+      "description": "Diagnostic PLC Siemens, Wago, Omron — RUN/STOP, I/O, communication.",
+      "category": "automatisme",
+      "icon": "🤖"
+    }
+  ]
+}

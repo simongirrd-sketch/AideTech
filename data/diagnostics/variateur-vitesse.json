@@ -1,0 +1,90 @@
+{
+  "id": "variateur-vitesse",
+  "title": "Diagnostic variateur de vitesse",
+  "description": "Arbre de décision variateur industriel",
+  "category": "automatisme",
+  "startNode": "q_alim",
+  "nodes": {
+    "q_alim": {
+      "type": "question",
+      "text": "Le variateur est-il alimenté (LED réseau allumée) ?",
+      "options": [
+        { "label": "Oui", "next": "q_defaut" },
+        { "label": "Non", "next": "r_pas_alim" }
+      ]
+    },
+    "q_defaut": {
+      "type": "question",
+      "text": "Un code défaut s'affiche sur l'écran ou clignote une LED rouge ?",
+      "options": [
+        { "label": "Oui, code défaut visible", "next": "q_surcharge" },
+        { "label": "Non, pas de défaut affiché", "next": "q_moteur_tourne" }
+      ]
+    },
+    "q_surcharge": {
+      "type": "question",
+      "text": "Le code défaut indique-t-il une surcharge (OC, OL, OH) ?",
+      "options": [
+        { "label": "Oui — surintensité / surchauffe", "next": "r_surcharge" },
+        { "label": "Non — autre code (comm, bus, etc.)", "next": "r_comm" }
+      ]
+    },
+    "q_moteur_tourne": {
+      "type": "question",
+      "text": "Le moteur tourne-t-il quand une consigne de vitesse est envoyée ?",
+      "options": [
+        { "label": "Oui mais vitesse instable", "next": "r_reglage" },
+        { "label": "Non, moteur immobile", "next": "r_sortie" },
+        { "label": "Oui, fonctionnement normal", "next": "r_ok" }
+      ]
+    },
+    "r_pas_alim": {
+      "type": "result",
+      "text": "Variateur non alimenté",
+      "severity": "warning",
+      "causes": ["Disjoncteur variateur ouvert", "Fusible entrée secteur", "Câble alimentation coupé", "Contact auxiliaire sécurité ouvert"],
+      "verifications": ["Mesurer tension L1-L2-L3 entrée variateur", "Contrôler disjoncteur et fusibles", "Vérifier chaîne sécurité (STO, arrêt d'urgence)"],
+      "actions": ["Réarmement après cause identifiée", "Remplacer fusibles", "Réparer câble alimentation", "Réinitialiser contact sécurité STO"]
+    },
+    "r_surcharge": {
+      "type": "result",
+      "text": "Défaut surcharge variateur",
+      "severity": "danger",
+      "causes": ["Surcharge mécanique", "Accélération trop rapide", "Moteur inadapté au variateur", "Refroidissement variateur insuffisant"],
+      "verifications": ["Lire courant de sortie vs nominal", "Vérifier paramètres acc/dec et limite courant", "Contrôler ventilateur variateur", "Mesurer température dissipateur"],
+      "actions": ["Réduire rampe accélération", "Ajuster limite courant moteur", "Améliorer ventilation armoire", "Vérifier charge mécanique"]
+    },
+    "r_comm": {
+      "type": "result",
+      "text": "Défaut communication ou paramétrage",
+      "severity": "warning",
+      "causes": ["Perte bus Modbus/Profibus/Ethernet", "Paramètres réseau incorrects", "Câble communication défectueux", "Adresse esclave en conflit"],
+      "verifications": ["Contrôler LED communication", "Vérifier adresse et baudrate", "Tester câble et terminaison bus", "Consulter manuel code défaut exact"],
+      "actions": ["Reconfigurer paramètres communication", "Remplacer câble bus", "Reset usine si corruption paramètres", "Mettre à jour firmware si bug connu"]
+    },
+    "r_sortie": {
+      "type": "result",
+      "text": "Pas de rotation malgré consigne",
+      "severity": "warning",
+      "causes": ["Consigne non reçue (0 mA/0V/0Hz)", "Marche/Arrêt désactivé", "Sens de marche bloqué", "Sortie variateur HS", "Câble moteur ouvert"],
+      "verifications": ["Mesurer consigne analogique ou bus", "Vérifier entrées MA/ARRêt et sens", "Mesurer tension sortie U-V-W", "Contrôler continuité câble moteur"],
+      "actions": ["Corriger signal consigne automate", "Activer marche via IHM/automate", "Inverser deux phases sortie", "Remplacer variateur si sortie HS"]
+    },
+    "r_reglage": {
+      "type": "result",
+      "text": "Vitesse instable ou oscillations",
+      "severity": "info",
+      "causes": ["Boucle régulation mal réglée", "Charge variable importante", "Résonance mécanique", "Encoder défectueux (mode vectoriel)"],
+      "verifications": ["Vérifier paramètres PID / boucle vitesse", "Contrôler retour encodeur si présent", "Observer couple en charge", "Comparer avec paramètres usine"],
+      "actions": ["Autotuning variateur si disponible", "Ajuster gains régulation", "Ajouter rampe décélération adaptée", "Remplacer encodeur si signal erratique"]
+    },
+    "r_ok": {
+      "type": "result",
+      "text": "Variateur opérationnel",
+      "severity": "success",
+      "causes": [],
+      "verifications": ["Sauvegarder paramètres variateur", "Noter courants et températures de référence"],
+      "actions": ["Planifier nettoyage filtres variateur", "Vérifier serrage borniers annuellement"]
+    }
+  }
+}

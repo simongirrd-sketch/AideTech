@@ -1,0 +1,166 @@
+{
+  "equipments": [
+    {
+      "id": "eq_convoyeur_l2",
+      "nom": "Convoyeur principal Ligne 2",
+      "marque": "SEW",
+      "modele": "MoviGear + Moteur ABB M2BA",
+      "emplacement": "Atelier — Ligne 2",
+      "categorie": "mecanique",
+      "frequenceJours": 90,
+      "prochainEntretien": "2026-03-15",
+      "dernierEntretien": "2025-12-15",
+      "notes": "Graissage roulements tous les 3 mois. Contrôle tension courroie."
+    },
+    {
+      "id": "eq_pompe_hydro",
+      "nom": "Groupe hydraulique presse 80T",
+      "marque": "Bosch Rexroth",
+      "modele": "A10VSO 28",
+      "emplacement": "Presse hydraulique — Baie 3",
+      "categorie": "hydraulique",
+      "frequenceJours": 60,
+      "prochainEntretien": "2026-02-01",
+      "dernierEntretien": "2025-12-03",
+      "notes": "Changement filtre et contrôle niveau huile ISO 46."
+    },
+    {
+      "id": "eq_variateur_lenze",
+      "nom": "Variateur convoyeur entrée",
+      "marque": "Lenze",
+      "modele": "i550",
+      "emplacement": "Armoire AE-01",
+      "categorie": "automatisme",
+      "frequenceJours": 180,
+      "prochainEntretien": "2026-06-01",
+      "dernierEntretien": "2025-12-01",
+      "notes": "Nettoyage filtres ventilateur. Sauvegarde paramètres."
+    },
+    {
+      "id": "eq_compresseur",
+      "nom": "Compresseur réseau air",
+      "marque": "Festo",
+      "modele": "VAEM-1/2",
+      "emplacement": "Local compresseur",
+      "categorie": "pneumatique",
+      "frequenceJours": 30,
+      "prochainEntretien": "2026-01-20",
+      "dernierEntretien": "2025-12-20",
+      "notes": "Purge condensats quotidienne. Filtre FRL mensuel."
+    },
+    {
+      "id": "eq_plc_l3",
+      "nom": "Automate ligne assemblage 3",
+      "marque": "Siemens",
+      "modele": "S7-1512SP",
+      "emplacement": "Armoire ARM-L3",
+      "categorie": "automatisme",
+      "frequenceJours": 365,
+      "prochainEntretien": "2026-09-01",
+      "dernierEntretien": "2025-09-01",
+      "notes": "Backup programme TIA Portal. Test batterie CPU."
+    },
+    {
+      "id": "eq_armoire_schneider",
+      "nom": "Armoire électrique Ligne 3",
+      "marque": "Schneider Electric",
+      "modele": "PrismaSeT + TeSys",
+      "emplacement": "Ligne 3 — Zone A",
+      "categorie": "electricite",
+      "frequenceJours": 90,
+      "prochainEntretien": "2026-04-10",
+      "dernierEntretien": "2026-01-10",
+      "notes": "Thermographie IR annuelle. Reserrage borniers."
+    }
+  ],
+  "checklists": [
+    {
+      "id": "cl_convoyeur",
+      "equipmentId": "eq_convoyeur_l2",
+      "titre": "Entretien trimestriel convoyeur L2",
+      "items": [
+        { "id": "item_0", "label": "Contrôle tension et alignement courroie", "done": false },
+        { "id": "item_1", "label": "Graissage roulements moteur et renvois", "done": false },
+        { "id": "item_2", "label": "Vérification serrage fixations", "done": false },
+        { "id": "item_3", "label": "Nettoyage capteurs de présence", "done": false },
+        { "id": "item_4", "label": "Mesure courant moteur en charge", "done": false }
+      ],
+      "createdAt": "2025-12-15T08:00:00.000Z"
+    },
+    {
+      "id": "cl_pompe",
+      "equipmentId": "eq_pompe_hydro",
+      "titre": "Maintenance groupe hydraulique",
+      "items": [
+        { "id": "item_0", "label": "Contrôle niveau huile réservoir", "done": true },
+        { "id": "item_1", "label": "Remplacement cartouche filtre retour", "done": true },
+        { "id": "item_2", "label": "Contrôle fuites raccords HP", "done": false },
+        { "id": "item_3", "label": "Mesure température huile en charge", "done": false }
+      ],
+      "createdAt": "2025-12-03T08:00:00.000Z"
+    },
+    {
+      "id": "cl_compresseur",
+      "equipmentId": "eq_compresseur",
+      "titre": "Entretien mensuel FRL compresseur",
+      "items": [
+        { "id": "item_0", "label": "Purge condensats séparateur", "done": false },
+        { "id": "item_1", "label": "Remplacement filtre air si ΔP élevé", "done": false },
+        { "id": "item_2", "label": "Contrôle pression réseau (6 bar)", "done": false }
+      ],
+      "createdAt": "2025-12-20T08:00:00.000Z"
+    }
+  ],
+  "interventions": [
+    {
+      "id": "int_001",
+      "equipmentId": "eq_armoire_schneider",
+      "date": "2026-01-10",
+      "type": "preventive",
+      "description": "Reserrage borniers et nettoyage filtres armoire",
+      "technicien": "Simon M.",
+      "dureeMinutes": 120,
+      "checklistId": null
+    },
+    {
+      "id": "int_002",
+      "equipmentId": "eq_pompe_hydro",
+      "date": "2025-12-03",
+      "type": "preventive",
+      "description": "Changement filtre huile et contrôle pression",
+      "technicien": "Jean D.",
+      "dureeMinutes": 90,
+      "checklistId": "cl_pompe"
+    },
+    {
+      "id": "int_003",
+      "equipmentId": "eq_convoyeur_l2",
+      "date": "2025-12-15",
+      "type": "preventive",
+      "description": "Entretien trimestriel convoyeur — graissage complet",
+      "technicien": "Simon M.",
+      "dureeMinutes": 180,
+      "checklistId": "cl_convoyeur"
+    },
+    {
+      "id": "int_004",
+      "equipmentId": "eq_variateur_lenze",
+      "date": "2025-12-01",
+      "type": "preventive",
+      "description": "Nettoyage filtres variateur Lenze i550",
+      "technicien": "Marc L.",
+      "dureeMinutes": 45,
+      "checklistId": null
+    },
+    {
+      "id": "int_005",
+      "equipmentId": "eq_compresseur",
+      "date": "2025-11-20",
+      "type": "corrective",
+      "description": "Remplacement filtre FRL colmaté",
+      "technicien": "Jean D.",
+      "dureeMinutes": 30,
+      "checklistId": null
+    }
+  ]
+}

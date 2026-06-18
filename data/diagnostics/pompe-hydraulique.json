@@ -1,0 +1,99 @@
+{
+  "id": "pompe-hydraulique",
+  "title": "Diagnostic pompe hydraulique",
+  "description": "Pompes Bosch Rexroth — pression, bruit, surchauffe",
+  "category": "hydraulique",
+  "startNode": "q_demarrage",
+  "nodes": {
+    "q_demarrage": {
+      "type": "question",
+      "text": "La pompe hydraulique démarre-t-elle (moteur entraînement tourne) ?",
+      "options": [
+        { "label": "Oui", "next": "q_pression" },
+        { "label": "Non", "next": "r_moteur_pompe" }
+      ]
+    },
+    "q_pression": {
+      "type": "question",
+      "text": "La pression monte-t-elle à la valeur de consigne (manomètre) ?",
+      "options": [
+        { "label": "Non, pression nulle ou très basse", "next": "q_niveau" },
+        { "label": "Pression insuffisante sous charge", "next": "r_debit" },
+        { "label": "Pression OK", "next": "q_bruit" }
+      ]
+    },
+    "q_niveau": {
+      "type": "question",
+      "text": "Le niveau d'huile du réservoir est-il correct et l'aspiration dégagée ?",
+      "options": [
+        { "label": "Niveau bas ou crépine bouchée", "next": "r_aspiration" },
+        { "label": "Niveau OK, crépine propre", "next": "r_pompe_hs" }
+      ]
+    },
+    "q_bruit": {
+      "type": "question",
+      "text": "La pompe présente-t-elle un bruit anormal ou une surchauffe ?",
+      "options": [
+        { "label": "Bruit cavitation ( crépitement )", "next": "r_cavitation" },
+        { "label": "Surchauffe huile (> 60°C)", "next": "r_surchauffe" },
+        { "label": "Fonctionnement normal", "next": "r_ok" }
+      ]
+    },
+    "r_moteur_pompe": {
+      "type": "result",
+      "text": "Moteur entraînement pompe ne démarre pas",
+      "severity": "warning",
+      "causes": ["Défaut moteur électrique entraînement", "Contacteur pompe ouvert", "Protection thermique déclenchée", "Capteur niveau huile bloquant démarrage"],
+      "verifications": ["Diagnostiquer moteur (cf. arbre moteur)", "Contrôler contacteur et relais", "Vérifier niveau huile et pressostat niveau", "Contrôler chaîne sécurité"],
+      "actions": ["Réparer moteur entraînement", "Réarmement protection", "Remplir réservoir huile", "Réinitialiser pressostat niveau"]
+    },
+    "r_aspiration": {
+      "type": "result",
+      "text": "Problème d'aspiration — cavitation probable",
+      "severity": "warning",
+      "causes": ["Niveau huile insuffisant", "Crépine aspirante encrassée", "Filtre aspiration colmaté", "Fuite importante circuit"],
+      "verifications": ["Contrôler niveau réservoir (jauge)", "Nettoyer crépine aspiration", "Remplacer filtre retour/aspiration", "Rechercher fuites externes"],
+      "actions": ["Remplir huile hydraulique conforme ISO", "Nettoyer crépine", "Changer cartouche filtre", "Réparer fuites et purger circuit"]
+    },
+    "r_pompe_hs": {
+      "type": "result",
+      "text": "Pompe ne développe pas de pression — usure interne",
+      "severity": "danger",
+      "causes": ["Usure palettes/pistons/engrenages", "Clapet de charge bloqué ouvert", "Régulateur pression déréglé", "Pompe en rotation inverse"],
+      "verifications": ["Contrôler sens rotation (flèche pompe)", "Vérifier réglage distributeur pression", "Mesurer débit pompe (test banc)", "Analyser huile (particules métal)"],
+      "actions": ["Réviser ou remplacer pompe Rexroth", "Régler clapet pression", "Corriger sens rotation moteur", "Purger air du circuit"]
+    },
+    "r_debit": {
+      "type": "result",
+      "text": "Pression insuffisante sous charge",
+      "severity": "warning",
+      "causes": ["Pompe usée — débit insuffisant", "Fuite interne vérin ou distributeur", "Surcharge mécanique", "Huile trop chaude (viscosité basse)"],
+      "verifications": ["Mesurer pression au manomètre en charge", "Rechercher fuites (gouttes, huile chaude)", "Contrôler température huile", "Test débit pompe"],
+      "actions": ["Remplacer pompe si usée", "Réparer vérin ou distributeur fuyard", "Réduire charge process", "Vérifier refroidisseur huile"]
+    },
+    "r_cavitation": {
+      "type": "result",
+      "text": "Cavitation pompe",
+      "severity": "danger",
+      "causes": ["Aspiration partiellement obstruée", "Huile trop visqueuse (froid)", "Hauteur aspiration excessive", "Air dans le circuit"],
+      "verifications": ["Contrôler ΔP aspiration (< 0,3 bar idéal)", "Vérifier température huile au démarrage", "Inspecter crépine et raccords aspiration", "Purger points hauts circuit"],
+      "actions": ["Nettoyer aspiration", "Préchauffer huile si nécessaire", "Raccourcir ligne aspiration", "Purger complètement le circuit"]
+    },
+    "r_surchauffe": {
+      "type": "result",
+      "text": "Surchauffe huile hydraulique",
+      "severity": "warning",
+      "causes": ["Refroidisseur encrassé ou HS", "Surpresseur mal réglé (perte énergie)", "Cycle de fonctionnement intensif", "Niveau huile insuffisant"],
+      "verifications": ["Mesurer température réservoir", "Contrôler ventilateur/échangeur eau", "Vérifier réglage pressostat", "Contrôler niveau huile"],
+      "actions": ["Nettoyer échangeur thermique", "Régler pression consigne", "Optimiser cycles machine", "Remplir huile au niveau"]
+    },
+    "r_ok": {
+      "type": "result",
+      "text": "Circuit hydraulique opérationnel",
+      "severity": "success",
+      "causes": [],
+      "verifications": ["Noter pressions de service de référence", "Prélèvement huile pour analyse"],
+      "actions": ["Planifier changement filtre et huile", "Contrôler serrage raccords haute pression"]
+    }
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "id": "moteur-electrique",
+  "title": "Diagnostic moteur électrique",
+  "description": "Arbre de décision pour moteur asynchrone triphasé",
+  "category": "electricite",
+  "startNode": "q_demarre",
+  "nodes": {
+    "q_demarre": {
+      "type": "question",
+      "text": "Le moteur démarre-t-il lors de la commande ?",
+      "options": [
+        { "label": "Oui, il tourne", "next": "q_surchauffe" },
+        { "label": "Non, il ne démarre pas", "next": "q_tension" },
+        { "label": "Il tente de démarrer puis s'arrête (disjoncteur)", "next": "r_surcharge" }
+      ]
+    },
+    "q_tension": {
+      "type": "question",
+      "text": "Y a-t-il une tension aux bornes du moteur (mesure triphasée) ?",
+      "options": [
+        { "label": "Oui, tension nominale sur les 3 phases", "next": "q_contacteur" },
+        { "label": "Non, pas de tension", "next": "r_absence_tension" },
+        { "label": "Tension déséquilibrée ou phase manquante", "next": "r_phase_manquante" }
+      ]
+    },
+    "q_contacteur": {
+      "type": "question",
+      "text": "Le contacteur de puissance s'actionne-t-il (clic audible, voyant) ?",
+      "options": [
+        { "label": "Oui", "next": "r_mecanique_bloque" },
+        { "label": "Non", "next": "r_commande_contacteur" }
+      ]
+    },
+    "q_surchauffe": {
+      "type": "question",
+      "text": "Le moteur présente-t-il une surchauffe ou des vibrations anormales ?",
+      "options": [
+        { "label": "Surchauffe importante", "next": "r_surchauffe" },
+        { "label": "Vibrations / bruit anormal", "next": "r_vibrations" },
+        { "label": "Fonctionnement normal", "next": "r_ok" }
+      ]
+    },
+    "r_absence_tension": {
+      "type": "result",
+      "text": "Absence de tension au moteur",
+      "severity": "warning",
+      "causes": [
+        "Disjoncteur ou fusible ouvert en amont",
+        "Contacteur non commandé (défaut relais, automate, bouton)",
+        "Câble coupé ou connexion desserrée",
+        "Cellule de sécurité ou relais thermique ouvert"
+      ],
+      "verifications": [
+        "Contrôler l'état du disjoncteur moteur Qx",
+        "Mesurer la tension en amont du contacteur",
+        "Vérifier la commande 24V/220V vers la bobine contacteur",
+        "Contrôler le relais thermique (reset si nécessaire)"
+      ],
+      "actions": [
+        "Réarmement disjoncteur après identification de la cause",
+        "Reserrer ou remplacer connexions défectueuses",
+        "Remplacer contacteur si bobine HS",
+        "Vérifier la chaîne de sécurité (urgence, portes, capteurs)"
+      ]
+    },
+    "r_phase_manquante": {
+      "type": "result",
+      "text": "Déséquilibre ou phase manquante",
+      "severity": "danger",
+      "causes": [
+        "Fusible ou disjoncteur d'une phase ouvert",
+        "Connexion oxydée ou desserrée sur une phase",
+        "Contacteur avec un pôle brûlé",
+        "Problème réseau amont (transformateur, câble alimentation)"
+      ],
+      "verifications": [
+        "Mesurer U entre phases (L1-L2, L2-L3, L3-L1)",
+        "Contrôler les trois fusibles ou poles disjoncteur",
+        "Inspecter visuellement le contacteur (traces de brûlure)",
+        "Vérifier serrage borniers moteur et armoire"
+      ],
+      "actions": [
+        "NE PAS laisser tourner le moteur — risque de destruction",
+        "Remplacer fusible/contacteur défectueux",
+        "Nettoyer et resserrer connexions",
+        "Contrôle d'isolement moteur après réparation"
+      ]
+    },
+    "r_commande_contacteur": {
+      "type": "result",
+      "text": "Défaut de commande contacteur",
+      "severity": "warning",
+      "causes": [
+        "Bobine contacteur hors service",
+        "Défaut automate / relais intermédiaire",
+        "Chaîne de sécurité ouverte",
+        "Câble de commande coupé"
+      ],
+      "verifications": [
+        "Mesurer tension aux bornes bobine A1-A2 lors commande",
+        "Contrôler sortie automate vers relais/contacteur",
+        "Vérifier état relais thermique et contacts auxiliaires",
+        "Tester contacteur en commande manuelle locale"
+      ],
+      "actions": [
+        "Remplacer bobine ou contacteur complet",
+        "Corriger programmation automate si sortie inactive",
+        "Réinitialiser relais thermique",
+        "Réparer câble de commande"
+      ]
+    },
+    "r_mecanique_bloque": {
+      "type": "result",
+      "text": "Moteur alimenté mais ne tourne pas — blocage mécanique ou électrique",
+      "severity": "warning",
+      "causes": [
+        "Arbre bloqué mécaniquement (charge, roulement grippé)",
+        "Rotor bloqué (roulement, corps étranger)",
+        "Défaut d'isolement (court-circuit interne)",
+        "Condensateur HS (monophasé)"
+      ],
+      "verifications": [
+        "Couper alimentation, tenter rotation manuelle arbre",
+        "Mesurer courant à vide vs sous charge",
+        "Test mégohmmètre entre phases et terre",
+        "Contrôler alignement mécanique"
+      ],
+      "actions": [
+        "Débloquer charge ou réparer transmission",
+        "Remplacer roulements défectueux",
+        "Révision ou remplacement moteur si isolement faible",
+        "Vérifier accouplement et paliers"
+      ]
+    },
+    "r_surcharge": {
+      "type": "result",
+      "text": "Déclenchement immédiat — surcharge ou court-circuit",
+      "severity": "danger",
+      "causes": [
+        "Court-circuit moteur ou câble",
+        "Surcharge mécanique excessive",
+        "Calibre protection trop bas",
+        "Deux phases inversées sur réparation récente"
+      ],
+      "verifications": [
+        "Mesurer isolement moteur (MΩ)",
+        "Contrôler courant nominal vs mesuré",
+        "Vérifier calibre disjoncteur moteur",
+        "Contrôler sens de rotation et charge"
+      ],
+      "actions": [
+        "Ne pas réarmement sans diagnostic isolement",
+        "Réduire charge ou corriger mécanisme",
+        "Ajuster protection moteur",
+        "Inverser deux phases si sens incorrect"
+      ]
+    },
+    "r_surchauffe": {
+      "type": "result",
+      "text": "Surchauffe moteur",
+      "severity": "warning",
+      "causes": [
+        "Surcharge mécanique prolongée",
+        "Ventilation obstruée (filtre, grilles)",
+        "Environnement trop chaud",
+        "Nombre de démarrages excessif",
+        "Déséquilibre de tension"
+      ],
+      "verifications": [
+        "Mesurer courant absorbé vs plaque signalétique",
+        "Contrôler débit air ventilation",
+        "Vérifier température ambiante armoire/locale",
+        "Mesurer déséquilibre de tension"
+      ],
+      "actions": [
+        "Réduire charge ou optimiser process",
+        "Nettoyer filtres et grilles",
+        "Améliorer ventilation locale",
+        "Installer soft-starter ou variateur si démarrages fréquents"
+      ]
+    },
+    "r_vibrations": {
+      "type": "result",
+      "text": "Vibrations ou bruit anormal",
+      "severity": "info",
+      "causes": [
+        "Roulement usé ou mal graissé",
+        "Désalignement arbre/accouplement",
+        "Déséquilibre rotor",
+        "Fixation moteur desserrée"
+      ],
+      "verifications": [
+        "Analyse vibratoire si disponible",
+        "Contrôle alignement laser",
+        "Vérification serrage boulons fixation",
+        "Écoute roulements (stéthoscope)"
+      ],
+      "actions": [
+        "Remplacer roulements",
+        "Realigner accouplement",
+        "Equilibrer rotor si nécessaire",
+        "Reserrer fixation et plots anti-vibration"
+      ]
+    },
+    "r_ok": {
+      "type": "result",
+      "text": "Fonctionnement nominal",
+      "severity": "success",
+      "causes": [],
+      "verifications": [
+        "Contrôle visuel périodique",
+        "Mesure courant de fonctionnement",
+        "Vérification température en charge"
+      ],
+      "actions": [
+        "Planifier maintenance préventive (graisse, nettoyage)",
+        "Documenter paramètres de référence pour comparaison future",
+        "Surveiller tendance consommation électrique"
+      ]
+    }
+  }
+}

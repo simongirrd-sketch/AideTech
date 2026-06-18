@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Maintenance préventive — Tableau de bord, équipements, check-lists et calendrier.">
+  <title>Maintenance Préventive — SiteMAINT</title>
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/maintenance.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="../index.html">Accueil</a><span aria-hidden="true">›</span><span>Maintenance Préventive</span>
+        </nav>
+        <h1>Maintenance Préventive</h1>
+        <p>Gestion des équipements, check-lists, calendrier et historique des interventions.</p>
+      </div>
+    </div>
+    <div class="container section" style="padding-top:1.5rem;">
+      <div class="maint-tabs" role="tablist" aria-label="Sections maintenance">
+        <button type="button" class="maint-tab active" data-maint-tab="dashboard" role="tab" aria-selected="true">Tableau de bord</button>
+        <button type="button" class="maint-tab" data-maint-tab="equipments" role="tab">Équipements</button>
+        <button type="button" class="maint-tab" data-maint-tab="checklists" role="tab">Check-lists</button>
+        <button type="button" class="maint-tab" data-maint-tab="calendar" role="tab">Calendrier</button>
+        <button type="button" class="maint-tab" data-maint-tab="history" role="tab">Historique</button>
+      </div>
+      <div id="maint-panel" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="../assets/js/core/utils.js"></script>
+  <script src="../assets/js/core/data-provider.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/navigation.js"></script>
+  <script src="../assets/js/services/maintenance-service.js"></script>
+  <script src="../assets/js/modules/maintenance-app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      MaintenanceApp.init("../data/maintenance/defaults.json");
+    });
+  </script>
+</body>
+</html>
