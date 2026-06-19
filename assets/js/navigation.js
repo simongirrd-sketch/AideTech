@@ -1,5 +1,6 @@
 /**
  * navigation.js — En-tête et pied de page réutilisables
+ * Updated: added Admin local link
  */
 
 const NAV_LINKS = [
@@ -8,6 +9,7 @@ const NAV_LINKS = [
   { href: "pages/diagnostic.html", label: "Diagnostic", id: "diagnostic" },
   { href: "pages/maintenance.html", label: "Maintenance Préventive", id: "maintenance" },
   { href: "pages/about.html", label: "À propos", id: "about" },
+  { href: "pages/admin-local.html", label: "Connexion", id: "admin" },
 ];
 
 const DOC_CATEGORIES = [
@@ -37,6 +39,7 @@ function getActivePageId() {
   if (path.includes("maintenance")) return "maintenance";
   if (path.includes("gmao")) return "about";
   if (path.includes("about")) return "about";
+  if (path.includes("admin-local")) return "admin";
   return "home";
 }
 
@@ -94,7 +97,7 @@ function renderFooter() {
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; ${year} SiteMAINT — ${SITE_CONFIG.version}</p>
+        <p>&copy; ${new Date().getFullYear()} SiteMAINT — ${typeof SITE_CONFIG === 'undefined' ? '' : SITE_CONFIG.version}</p>
       </div>
     </div>
   `;
