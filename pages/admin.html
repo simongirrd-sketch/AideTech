@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin — SiteMAINT</title>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <style>
+    .admin-doc-item{padding:8px;border-bottom:1px solid #eee}
+    .admin-doc-actions{margin-top:6px}
+    #editor{margin-top:12px}
+    #editor input, #editor textarea{width:100%;box-sizing:border-box}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Administration</h1>
+
+    <section id="login-form">
+      <label>Email<br><input id="email" type="email"></label><br>
+      <label>Mot de passe<br><input id="password" type="password"></label><br>
+      <button id="btn-login" class="btn btn-primary">Se connecter</button>
+      <p id="login-msg" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="admin-panel" hidden>
+      <button id="btn-logout" class="btn">Se déconnecter</button>
+      <h2>Documents</h2>
+      <div id="doc-list">Chargement...</div>
+      <button id="btn-new" class="btn btn-secondary">Nouvelle fiche</button>
+
+      <div id="editor" hidden>
+        <h3>Édition</h3>
+        <input id="doc-title" placeholder="Titre">
+        <input id="doc-category" placeholder="Catégorie (ex: electricite)">
+        <input id="doc-subcategory" placeholder="Sous-catégorie (ex: Schémas)">
+        <textarea id="doc-content" rows="10" placeholder='JSON contenu (ex: {"description":"..."})'></textarea>
+        <button id="btn-save" class="btn btn-primary">Sauver</button>
+        <button id="btn-cancel" class="btn">Annuler</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/assets/js/config.supabase.example.js"></script>
+  <script type="module" src="/assets/js/pages/admin.js"></script>
+</body>
+</html>
