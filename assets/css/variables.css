@@ -1,76 +1,75 @@
-/* variables (no change for step A) - copied from main to ensure branch file present */
-/**
- * variables.css — Design tokens du projet SiteMAINT
- *
- * Centraliser couleurs et espacements ici permet de modifier
- * l'apparence globale sans toucher à chaque page.
- */
-
+/* variables.css — Industrial theme tokens for SiteMAINT (style/screenshot)
+   - Palette: steel/navy, concrete greys, rust orange accents
+   - Adjust spacings slightly for more compact industrial look
+*/
 :root {
-  /* Couleurs principales — palette industrielle */
-  --color-primary: #1a365d;
-  --color-primary-light: #2c5282;
-  --color-primary-dark: #0f2440;
+  /* Primary tones */
+  --color-primary: #0b2736;        /* deep steel-blue */
+  --color-primary-light: #1a3b52;
+  --color-primary-dark: #061826;
 
-  --color-accent: #d97706;
-  --color-accent-light: #f59e0b;
-  --color-accent-dark: #b45309;
+  /* Accent (rust / orange) */
+  --color-accent: #cf6f12;         /* rust orange */
+  --color-accent-light: #f39c3a;
+  --color-accent-dark: #a65a0d;
 
-  --color-success: #059669;
-  --color-warning: #d97706;
-  --color-danger: #dc2626;
-  --color-info: #0284c7;
+  /* Neutrals / concrete */
+  --color-bg: #eef3f5;             /* cool concrete */
+  --color-bg-card: #ffffff;        /* card surface */
+  --color-bg-dark: #0c1620;        /* footer / deep areas */
+  --color-border: #bfc7cc;         /* metallic border */
+  --color-border-light: #e6ecef;   /* light seam */
 
-  /* Neutres */
-  --color-bg: #f1f5f9;
-  --color-bg-card: #ffffff;
-  --color-bg-dark: #0f172a;
-  --color-border: #cbd5e1;
-  --color-border-light: #e2e8f0;
+  /* Text */
+  --color-text: #16292f;           /* dark slate */
+  --color-text-muted: #6b7a84;
+  --color-text-inverse: #f8fbfc;
 
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
-  --color-text-inverse: #f8fafc;
+  /* Semantic */
+  --color-success: #0ea37a;
+  --color-warning: var(--color-accent);
+  --color-danger: #c53030;
 
   /* Typographie */
-  --font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-family: "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   --font-family-mono: "Cascadia Code", "Consolas", monospace;
 
   --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
+  --font-size-sm: 0.9rem;
   --font-size-base: 1rem;
   --font-size-lg: 1.125rem;
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 2rem;
-  --font-size-4xl: 2.5rem;
 
   --line-height: 1.6;
-  --line-height-tight: 1.3;
+  --line-height-tight: 1.28;
 
-  /* Espacements */
+  /* Spacing */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
+  --space-md: 0.9rem;
+  --space-lg: 1.25rem;
+  --space-xl: 1.8rem;
+  --space-2xl: 2.8rem;
   --space-3xl: 4rem;
 
   /* Layout */
-  --container-max: 1200px;
-  --header-height: 64px;
+  --container-max: 1220px;
+  --header-height: 68px;
   --sidebar-width: 260px;
 
-  /* Effets */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.1);
-  --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.12);
+  /* Radii & shadows */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 6px 16px rgba(8, 18, 24, 0.06);
+  --shadow-md: 0 12px 30px rgba(8, 18, 24, 0.10);
 
   /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
+  --transition-fast: 160ms ease;
+  --transition-base: 260ms ease;
+
+  /* Texture overlay for industrial feel (subtle) */
+  --bg-texture: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
 }
