@@ -5,44 +5,61 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Connexion — SiteMAINT</title>
   <link rel="stylesheet" href="/assets/css/main.css">
-  <style>
-    .auth-container{max-width:720px;margin:24px auto;padding:20px}
-    .auth-forms{display:flex;gap:24px}
-    .auth-card{flex:1;background:var(--color-bg-card);padding:16px;border-radius:8px}
-    label{display:block;margin-top:8px}
-    .muted{color:#666;margin-top:12px}
-  </style>
 </head>
 <body>
   <header class="site-header" id="site-header"></header>
-  <main class="container auth-container">
-    <h1>Connexion / Inscription</h1>
-    <div class="auth-forms">
-      <div class="auth-card">
-        <h2>Se connecter</h2>
-        <label>Nom d'utilisateur<input id="login-username" type="text" autocomplete="username"></label>
-        <label>Mot de passe<input id="login-password" type="password" autocomplete="current-password"></label>
-        <div style="margin-top:12px"><button id="btn-login" class="btn btn-primary">Se connecter</button></div>
-        <p id="login-msg" class="muted" aria-live="polite"></p>
-      </div>
 
-      <div class="auth-card">
-        <h2>Créer un compte</h2>
-        <label>Nom d'utilisateur<input id="reg-username" type="text"></label>
-        <label>Mot de passe<input id="reg-password" type="password"></label>
-        <label>Clé admin (optionnelle)<input id="reg-admin-code" type="text" placeholder="laisser vide sauf si admin"></label>
-        <div style="margin-top:12px"><button id="btn-register" class="btn">S'inscrire</button></div>
-        <p class="muted">Remarque: pour créer un compte admin, il faut entrer la clé d'administration. Voir README ou contact.</p>
+  <main id="main-content">
+    <section class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="/index.html">Accueil</a><span aria-hidden="true">›</span>
+          <span>Connexion</span>
+        </nav>
+        <h1>Connexion & Inscription</h1>
+        <p class="lead">Connectez-vous pour accéder à votre espace. Les administrateurs peuvent gérer les fiches techniques.</p>
       </div>
-    </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="card-grid">
+          <div class="card">
+            <h2>Se connecter</h2>
+            <label for="login-username">Nom d'utilisateur</label>
+            <input id="login-username" type="text" class="input" autocomplete="username">
+            <label for="login-password">Mot de passe</label>
+            <input id="login-password" type="password" class="input" autocomplete="current-password">
+            <div style="margin-top:12px">
+              <button id="btn-login" class="btn btn-primary">Se connecter</button>
+            </div>
+            <p id="login-msg" class="muted" aria-live="polite"></p>
+          </div>
+
+          <div class="card">
+            <h2>Créer un compte</h2>
+            <label for="reg-username">Nom d'utilisateur</label>
+            <input id="reg-username" type="text" class="input">
+            <label for="reg-password">Mot de passe</label>
+            <input id="reg-password" type="password" class="input">
+            <label for="reg-admin-code">Clé admin (optionnelle)</label>
+            <input id="reg-admin-code" type="text" class="input" placeholder="laisser vide sauf admin">
+            <div style="margin-top:12px">
+              <button id="btn-register" class="btn">S'inscrire</button>
+            </div>
+            <p class="muted">Si vous possédez la clé d'administration, entrez-la pour créer un compte administrateur.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
   <footer class="site-footer" id="site-footer"></footer>
 
   <script>
-    // Small client-only auth for prototype
+    // Client-side auth prototype (kept simple). For production use a backend.
     (function(){
-      const ADMIN_KEY = 'sitemaint_admin_code';
-      // default admin code (change by creating assets/js/config.admin.js or via editing this file)
+      // default admin code (can be overridden by assets/js/config.admin.js that sets window.SITEMAINT_ADMIN_CODE)
       window.SITEMAINT_ADMIN_CODE = window.SITEMAINT_ADMIN_CODE || 'ADMINKY123';
 
       function getUsers(){
@@ -67,11 +84,11 @@
         const msg = document.getElementById('login-msg');
         if(found){
           sessionStorage.setItem('sitemaint_session', JSON.stringify({ username: found.username, role: found.role }));
-          // redirect: if admin -> admin page, else -> homepage
+          // redirect based on role
           if(found.role === 'admin') window.location.href = '/pages/admin-local.html';
           else window.location.href = '/index.html';
         } else {
-          msg.textContent = 'Nom d\'utilisateur ou mot de passe incorrect.';
+          msg.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
         }
       });
 
@@ -81,12 +98,11 @@
         const adminCode = document.getElementById('reg-admin-code').value.trim();
         if(!user || !pass){ alert('Remplir tous les champs.'); return; }
         const users = getUsers();
-        if(users.find(u=>u.username===user)){ alert('Nom d\'utilisateur déjà pris.'); return; }
+        if(users.find(u=>u.username===user)){ alert("Nom d'utilisateur déjà pris."); return; }
         const role = (adminCode && adminCode === window.SITEMAINT_ADMIN_CODE) ? 'admin' : 'user';
         users.push({ username: user, password: pass, role });
         saveUsers(users);
-        alert('Compte créé. Vous pouvez maintenant vous connecter.');
-        // auto-login
+        alert('Compte créé. Vous êtes maintenant connecté.');
         sessionStorage.setItem('sitemaint_session', JSON.stringify({ username: user, role }));
         if(role === 'admin') window.location.href = '/pages/admin-local.html';
         else window.location.href = '/index.html';
