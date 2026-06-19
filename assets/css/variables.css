@@ -1,17 +1,11 @@
-/**
- * variables.css — Design tokens du projet SiteMAINT
- *
- * Centraliser couleurs et espacements ici permet de modifier
- * l'apparence globale sans toucher à chaque page.
- */
-
+/* variables.css — Design tokens adjusted to match screenshot */
 :root {
-  /* Couleurs principales — palette industrielle */
-  --color-primary: #1a365d;
-  --color-primary-light: #2c5282;
-  --color-primary-dark: #0f2440;
+  /* Couleurs principales — ajustées pour rendu visuel fidèle */
+  --color-primary: #0e2b45; /* deep navy */
+  --color-primary-light: #1a3954;
+  --color-primary-dark: #062233;
 
-  --color-accent: #d97706;
+  --color-accent: #d97706; /* orange accent */
   --color-accent-light: #f59e0b;
   --color-accent-dark: #b45309;
 
@@ -21,15 +15,15 @@
   --color-info: #0284c7;
 
   /* Neutres */
-  --color-bg: #f1f5f9;
+  --color-bg: #eef4f8; /* page background slightly cool */
   --color-bg-card: #ffffff;
-  --color-bg-dark: #0f172a;
+  --color-bg-dark: #0c1a2a;
   --color-border: #cbd5e1;
-  --color-border-light: #e2e8f0;
+  --color-border-light: #e6eef6;
 
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
-  --color-text-inverse: #f8fafc;
+  --color-text: #102233;
+  --color-text-muted: #6b7a89;
+  --color-text-inverse: #ffffff;
 
   /* Typographie */
   --font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -54,22 +48,22 @@
   --space-lg: 1.5rem;
   --space-xl: 2rem;
   --space-2xl: 3rem;
-  --space-3xl: 4rem;
+  --space-3xl: 4.5rem; /* a bit taller for hero */
 
   /* Layout */
-  --container-max: 1200px;
-  --header-height: 64px;
+  --container-max: 1250px;
+  --header-height: 72px; /* taller header like screenshot */
   --sidebar-width: 260px;
 
   /* Effets */
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
   --radius-lg: 12px;
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.1);
-  --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.12);
+  --shadow-sm: 0 4px 10px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.12);
+  --shadow-lg: 0 12px 34px rgba(15, 23, 42, 0.16);
 
   /* Transitions */
   --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
+  --transition-base: 230ms ease;
 }
