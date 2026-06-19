@@ -1,6 +1,6 @@
 /**
  * navigation.js — En-tête et pied de page réutilisables
- * Updated: added Admin local link
+ * Updated: add Login button in header and inline login modal
  */
 
 const NAV_LINKS = [
@@ -66,9 +66,32 @@ function renderHeader() {
       <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
         <ul>${navItems}</ul>
       </nav>
+      <div class="header-actions">
+        <button id="btn-open-login" class="btn btn-outline">Se connecter</button>
+      </div>
+    </div>
+
+    <!-- Login modal inserted by navigation.js -->
+    <div id="login-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content" role="document" aria-labelledby="login-title">
+        <button class="modal-close" id="login-close" aria-label="Fermer">×</button>
+        <h2 id="login-title">Se connecter</h2>
+        <form id="login-form-header">
+          <label>Utilisateur<br><input id="header-admin-user" type="text" autocomplete="username"></label>
+          <label>Mot de passe<br><input id="header-admin-pass" type="password" autocomplete="current-password"></label>
+          <div style="margin-top:8px;">
+            <button type="button" id="header-btn-login" class="btn btn-primary">Se connecter</button>
+            <button type="button" id="header-btn-cancel" class="btn">Annuler</button>
+          </div>
+          <p id="header-login-msg" aria-live="polite" style="margin-top:8px;color:#b00020;"></p>
+        </form>
+      </div>
     </div>
   `;
+
   initMobileNav();
+  initHeaderLogin();
 }
 
 function renderFooter() {
@@ -97,7 +120,7 @@ function renderFooter() {
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; ${new Date().getFullYear()} SiteMAINT — ${typeof SITE_CONFIG === 'undefined' ? '' : SITE_CONFIG.version}</p>
+        <p>&copy; ${year} SiteMAINT — ${typeof SITE_CONFIG === 'undefined' ? '' : SITE_CONFIG.version}</p>
       </div>
     </div>
   `;
@@ -136,6 +159,64 @@ function initMobileNav() {
       nav.classList.remove("is-open");
     });
   });
+}
+
+// Header login/modal helpers — uses the same local admin config as admin-local.js
+function initHeaderLogin(){
+  const openBtn = document.getElementById('btn-open-login');
+  const modal = document.getElementById('login-modal');
+  const closeBtn = document.getElementById('login-close');
+  const cancelBtn = document.getElementById('header-btn-cancel');
+  const loginBtn = document.getElementById('header-btn-login');
+  const msg = document.getElementById('header-login-msg');
+
+  if(!openBtn || !modal) return;
+
+  openBtn.addEventListener('click', ()=> showLoginModal());
+  closeBtn.addEventListener('click', ()=> hideLoginModal());
+  cancelBtn.addEventListener('click', ()=> hideLoginModal());
+  modal.querySelector('.modal-backdrop').addEventListener('click', ()=> hideLoginModal());
+
+  loginBtn.addEventListener('click', ()=>{
+    const user = document.getElementById('header-admin-user').value;
+    const pass = document.getElementById('header-admin-pass').value;
+    const cfg = window.SITEMAINT_ADMIN_CONFIG || {};
+    const ADMIN_USER = cfg.ADMIN_USER || 'admin';
+    const ADMIN_PASS = cfg.ADMIN_PASS || 'admin123';
+    if(user === ADMIN_USER && pass === ADMIN_PASS){
+      // set session and redirect to admin page
+      sessionStorage.setItem('sitemaint_admin_session', 'true');
+      hideLoginModal();
+      // redirect to admin page where full editor is available
+      window.location.href = relativeUrl('pages/admin-local.html');
+    } else {
+      msg.textContent = 'Identifiants incorrects';
+    }
+  });
+
+  // keyboard trap: Esc closes
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') hideLoginModal();
+  });
+}
+
+function showLoginModal(){
+  const modal = document.getElementById('login-modal');
+  if(!modal) return;
+  modal.style.display = 'block';
+  modal.setAttribute('aria-hidden','false');
+  const input = document.getElementById('header-admin-user');
+  if(input) input.focus();
+}
+
+function hideLoginModal(){
+  const modal = document.getElementById('login-modal');
+  if(!modal) return;
+  modal.style.display = 'none';
+  modal.setAttribute('aria-hidden','true');
+  // clear message
+  const msg = document.getElementById('header-login-msg');
+  if(msg) msg.textContent = '';
 }
 
 document.addEventListener("DOMContentLoaded", () => {
